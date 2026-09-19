@@ -1,0 +1,121 @@
+version: 2
+
+models:
+
+  - name: dim_cliente
+    description: "Dimensão de clientes com histórico SCD Tipo 2."
+
+    columns:
+      - name: id_cliente_sk
+        description: "Surrogate key da versão do cliente."
+        tests:
+          - unique
+          - not_null
+
+      - name: id_cliente
+        description: "Identificador do cliente no sistema de origem."
+        tests:
+          - not_null
+
+      - name: cpf
+        tests:
+          - not_null
+
+      - name: is_current
+        description: "Indica se o registro representa a versão atual do cliente."
+        tests:
+          - not_null
+          - accepted_values:
+              arguments:
+                values: [true, false]
+                quote: false
+
+
+  - name: dim_produto
+    description: "Dimensão de produtos."
+
+    columns:
+      - name: id_produto_sk
+        description: "Surrogate key do produto."
+        tests:
+          - unique
+          - not_null
+
+      - name: id_produto
+        description: "Identificador do produto no sistema de origem."
+        tests:
+          - unique
+          - not_null
+
+      - name: sku
+        tests:
+          - unique
+          - not_null
+
+
+  - name: dim_tempo
+    description: "Dimensão calendário utilizada para análise temporal das vendas."
+
+    columns:
+      - name: id_data
+        tests:
+          - unique
+          - not_null
+
+      - name: data_completa
+        tests:
+          - unique
+          - not_null
+
+      - name: eh_feriado
+        tests:
+          - not_null
+          - accepted_values:
+              arguments:
+                values: [true, false]
+                quote: false
+
+
+  - name: fact_vendas
+    description: "Tabela fato contendo as vendas da CompraTech."
+
+    columns:
+      - name: id_venda
+        tests:
+          - unique
+          - not_null
+
+      - name: id_cliente
+        description: "FK para a surrogate key da dimensão de clientes."
+        tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('dim_cliente')
+                field: id_cliente_sk
+
+      - name: id_produto
+        description: "FK para a surrogate key da dimensão de produtos."
+        tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('dim_produto')
+                field: id_produto_sk
+
+      - name: id_data
+        description: "FK para a dimensão de tempo."
+        tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('dim_tempo')
+                field: id_data
+
+      - name: quantidade
+        tests:
+          - not_null
+
+      - name: valor_total
+        tests:
+          - not_null

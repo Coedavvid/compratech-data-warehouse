@@ -1,0 +1,16 @@
+version: 2
+
+sources:
+  - name: raw_data
+    database: compratech-data-warehouse
+    schema: raw_data
+
+    tables:
+      - name: clientes
+        description: "Dados brutos de clientes provenientes do PostgreSQL."
+
+      - name: produtos
+        description: "Dados brutos de produtos provenientes do PostgreSQL."
+
+      - name: vendas
+        description: "Dados brutos de vendas provenientes do PostgreSQL."

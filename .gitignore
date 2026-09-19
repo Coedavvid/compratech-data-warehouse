@@ -1,0 +1,26 @@
+# Ambiente virtual Python
+.venv/
+
+# Python
+__pycache__/
+*.pyc
+
+# Variáveis de ambiente e credenciais
+.env
+secrets/
+*.json
+
+# dbt
+dbt/target/
+dbt/logs/
+dbt/dbt_packages/
+
+# Airflow
+airflow/logs/
+.airflow/
+
+# Sistema operacional
+.DS_Store
+Thumbs.db
+# Backup local
+docker-compose.backup.yml

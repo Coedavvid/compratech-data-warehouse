@@ -1,0 +1,12 @@
+compratech_dw:
+  target: dev
+
+  outputs:
+    dev:
+      type: bigquery
+      method: oauth
+      project: compratech-data-warehouse
+      dataset: dbt_compratech
+      location: US
+      threads: 4
+      timeout_seconds: 300
