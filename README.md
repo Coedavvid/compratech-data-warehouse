@@ -230,3 +230,19 @@ compratech-data-warehouse/
 ```
 
 Cada diretório representa uma etapa da arquitetura, separando geração e ingestão de dados, transformação com dbt, orquestração com Airflow e demonstração do SCD Type 2.
+
+## Evidências do Projeto
+
+### Pipeline automatizado com Apache Airflow
+
+A DAG `compratech_pipeline` automatiza o fluxo de ingestão e transformação dos dados:
+
+`PostgreSQL → BigQuery → dbt run → dbt test`
+
+![Pipeline Apache Airflow](docs/images/airflow_pipeline.png)
+
+### Dashboard de Vendas
+
+Dashboard desenvolvido no Looker Studio utilizando os dados transformados no BigQuery.
+
+![Dashboard de Vendas - CompraTech](docs/images/looker_dashboard.png) 
