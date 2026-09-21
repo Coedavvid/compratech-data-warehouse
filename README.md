@@ -241,6 +241,20 @@ A DAG `compratech_pipeline` automatiza o fluxo de ingestão e transformação do
 
 ![Pipeline Apache Airflow](docs/images/airflow_pipeline.png)
 
+### Transformações com dbt
+
+As transformações do Data Warehouse são executadas com dbt, criando as camadas de staging, dimensões, tabela fato e modelos analíticos no BigQuery.
+
+O comando `dbt run` executou com sucesso os 9 modelos do projeto:
+
+![Execução dbt run](docs/images/dbt_run_success.png)
+
+### Testes de qualidade com dbt
+
+Foram implementados testes de qualidade e integridade dos dados utilizando dbt. Ao todo, 28 testes foram executados com sucesso, sem erros ou warnings.
+
+![Execução dbt test](docs/images/dbt_test_success.png)
+
 ### Dashboard de Vendas
 
 Dashboard desenvolvido no Looker Studio utilizando os dados transformados no BigQuery.
