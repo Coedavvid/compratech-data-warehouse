@@ -188,7 +188,13 @@ docker compose ps
 ```
 
 A interface do Apache Airflow ficará disponível localmente na porta `8080`.
+### Executando a ingestão de dados
 
+Para executar manualmente a ingestão dos dados do PostgreSQL para o BigQuery:
+
+```bash
+python data_generator/load_to_bigquery.py
+```
 ### Executando as transformações com dbt
 
 Para executar manualmente as transformações do Data Warehouse:
