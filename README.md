@@ -10,7 +10,7 @@ Durante o desenvolvimento, também trabalhei com conceitos como Star Schema, tes
 
 Para organizar o projeto, dividi o fluxo de dados em algumas etapas, desde a geração e armazenamento dos dados até a visualização final:
 
-PostgreSQL → Python/Pandas → BigQuery (Raw) → dbt → Data Warehouse → Looker Studio
+PostgreSQL → Python/Pandas → BigQuery (Raw) → dbt → BigQuery (Data Warehouse) → Looker Studio
 
 O PostgreSQL representa o banco de origem da aplicação. A ingestão para o BigQuery é feita com Python e Pandas, enquanto o dbt é responsável pelas transformações e pela construção do modelo dimensional.
 
@@ -107,7 +107,7 @@ Para controlar essas versões, utilizei os campos:
 
 Inicialmente implementei esse processo utilizando dbt Snapshot no BigQuery. A primeira execução funcionou normalmente, mas ao tentar registrar uma alteração encontrei uma limitação do BigQuery Sandbox: a segunda execução precisava realizar operações DML, que não estavam disponíveis sem faturamento habilitado.
 
-Como eu queria continuar o projeto sem gerar custos, reproduzi o comportamento do SCD Type 2 localmente no PostgreSQL. Para testar, alterei o estado de um cliente. O registro anterior foi encerrado e uma nova versão foi criada como atual.
+Como eu queria continuar o projeto sem gerar custos, reproduzi o comportamento do SCD Type 2 localmente no PostgreSQL. Para testar, alterei o estado de um cliente. A versão anterior do registro foi encerrada, preservando o histórico, e uma nova versão foi criada para representar o estado atual do cliente.
 
 A demonstração utilizada para esse teste está em:
 
@@ -143,7 +143,7 @@ Para facilitar essa etapa, criei com dbt dois modelos específicos para as visua
 Com esses dados, montei duas visualizações principais no dashboard:
 
 - **Receita Total por Mês** – para acompanhar a evolução da receita ao longo do tempo
-- **Top 5 Produtos mais Vendidos** – para visualizar quais produtos tiveram maior quantidade de vendas
+- **Top 5 Produtos mais Vendidos** - para visualizar quais produtos tiveram maior quantidade vendida 
 
 O Looker Studio foi conectado diretamente às tabelas já transformadas no BigQuery, evitando utilizar os dados brutos da camada `raw_data` nas visualizações.
 
@@ -215,7 +215,7 @@ docker compose ps
 A interface do Apache Airflow ficará disponível localmente na porta `8080`.
 ### Executando a ingestão de dados
 
-A ingestão foi desenvolvida em Python para extrair os dados das tabelas do PostgreSQL e carregá-los na camada raw_data do BigQuery. O script utiliza Pandas durante o processo de extração e preparação dos dados.
+A ingestão foi desenvolvida em Python para extrair os dados das tabelas do PostgreSQL e carregá-los na camada raw_data do BigQuery. O script utiliza Pandas durante o processo de extração e carregamento dos dados.
 
 ```bash
 python data_generator/load_to_bigquery.py
